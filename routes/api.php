@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// 회원가입
+Route::post('/register', [AuthController::class, 'register']);
+
+// 로그인
+Route::post('/login', [AuthController::class, 'login']);
+
+// 인증 체크
+Route::middleware('auth:sanctum')->group(function () {
+    // 유저 정보 수정
+    Route::put('/user/update', [AuthController::class, 'update']);
+
+    // 유저 삭제
+    Route::delete('/user/destroy', [AuthController::class, 'destroy']);
+
+    // 유저 로그아웃
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
