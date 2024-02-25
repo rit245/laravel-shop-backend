@@ -20,7 +20,7 @@ class AuthController extends Controller
         "access_token": "1|qATqzBjvibq4iI9Rah70L2HlWVM4JWO9wMBgRM0Le2be26a7",
         "token_type": "Bearer"
      */
-    public function regist(Request $request): JsonResponse
+    public function register(Request $request): JsonResponse
     {
         try {
             $validatedData = $request->validate([
