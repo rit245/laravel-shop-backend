@@ -12,13 +12,16 @@ use Laravel\Sanctum\PersonalAccessToken;
 class AuthController extends Controller
 {
     /**
-     * 등록 방법
-     *  Params >>
-     *  name, email, password, password_confirmation
+     * 회원가입을 처리합니다.
      *
-     *  Return >>
-        "access_token": "1|qATqzBjvibq4iI9Rah70L2HlWVM4JWO9wMBgRM0Le2be26a7",
-        "token_type": "Bearer"
+     * 요청된 사용자 데이터를 검증한 후, 유효한 경우 새 사용자를 생성하고
+     * 생성된 사용자에 대한 인증 토큰을 반환합니다.
+     *
+     * @param string $name 사용자 이름
+     * @param string $email 사용자 이메일
+     * @param string $password 사용자 비밀번호
+     * @param string $password_confirmation 비밀번호 확인
+     * @return JsonResponse 사용자 생성 성공 시, 사용자 토큰 및 발급시간을 포함한 JSON 응답
      */
     public function register(Request $request): JsonResponse
     {
@@ -53,7 +56,14 @@ class AuthController extends Controller
     }
 
     /**
-     * 로그인
+     * 로그인을 처리합니다.
+     *
+     * 이메일과 비밀번호를 검증하여 일치하는 사용자가 있는 경우,
+     * 해당 사용자에 대한 인증 토큰을 생성하고 반환합니다.
+     *
+     * @param string $email 사용자 이메일
+     * @param string $password 사용자 비밀번호
+     * @return JsonResponse 로그인 성공 시, 사용자 토큰 및 정보를 포함한 JSON 응답
      */
     public function login(Request $request): JsonResponse
     {
@@ -88,19 +98,31 @@ class AuthController extends Controller
     }
 
     /**
-     * 로그아웃
+     * 로그아웃을 처리합니다.
+     *
+     * 현재 인증된 사용자의 모든 인증 토큰을 삭제합니다.
+     *
+     * @return JsonResponse 로그아웃 성공 시 메시지를 포함한 JSON 응답
      */
-    public function logout(Request $request): JsonResponse
+    public function logout(): JsonResponse
     {
         // 인증된 유저의 모든 토큰을 삭제
-        $request->user()->tokens()->delete();
+        auth()->user()->tokens()->delete();
+        // $request->user()->tokens()->delete(); // user 를 지칭하여 로그아웃 하고 싶다면
 
         // 성공 메시지와 함께 응답 반환
         return response()->json(['message' => '성공적으로 로그아웃되었습니다.']);
     }
 
     /**
-     * 정보 수정
+     * 사용자 정보를 수정합니다.
+     *
+     * 요청된 사용자 데이터를 검증한 후, 유효한 경우 현재 인증된 사용자의 정보를 업데이트합니다.
+     *
+     * @param string|null $name 사용자 이름 (선택)
+     * @param string|null $email 사용자 이메일 (선택)
+     * @param string|null $password 사용자 비밀번호 (선택)
+     * @return JsonResponse 정보 수정 성공 시, 수정된 사용자 정보를 포함한 JSON 응답
      */
     public function update(Request $request): JsonResponse
     {
@@ -127,7 +149,11 @@ class AuthController extends Controller
     }
 
     /**
-     * 삭제
+     * 사용자 계정을 삭제합니다.
+     *
+     * 현재 인증된 사용자의 계정과 관련된 모든 데이터를 삭제합니다.
+     *
+     * @return JsonResponse 계정 삭제 성공 시 메시지를 포함한 JSON 응답
      */
     public function destroy(): JsonResponse
     {
