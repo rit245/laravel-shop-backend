@@ -23,6 +23,18 @@ Route::post('/register', [AuthController::class, 'register']);
 // 로그인
 Route::post('/login', [AuthController::class, 'login']);
 
+// 상품 목록 조회
+Route::get('/products', [ProductController::class, 'index']);
+
+// 상품 상세 조회
+Route::get('/products/{id}', [ProductController::class, 'show']);
+
+// 카테고리 목록 조회
+Route::get('/categories', [ProductCategoryController::class, 'index']);
+
+// 특정 카테고리 조회
+Route::get('/categories/{category}', [ProductCategoryController::class, 'show']);
+
 // 인증 체크
 Route::middleware('auth:sanctum')->group(function () {
     // 유저 정보 수정
@@ -34,12 +46,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // 유저 로그아웃
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    // 상품 목록 조회
-    Route::get('/products', [ProductController::class, 'index']);
-    
-    // 상품 상세 조회
-    Route::get('/products/{id}', [ProductController::class, 'show']);
-
     // 관리자 계정 생성
     // Route::post('/user/create-admin', [AdminController::class, 'create']);
 });
@@ -50,9 +56,18 @@ Route::post('/admin/login', [AdminController::class, 'login']);
 
 // 관리자 전용 API
 Route::middleware('auth:admin')->group(function () {
+
     // 상품 생성
-    Route::resource('products', ProductController::class);
+    Route::post('create/products', [ProductController::class, 'store']);
+
     // 카테고리 생성
-    Route::resource('categories', ProductCategoryController::class);
+    Route::post('create/categories', [ProductCategoryController::class, 'store']);
+
+    // 카테고리 업데이트
+    Route::put('/categories/{category}', [ProductCategoryController::class, 'update']);
+
+    // 카테고리 삭제
+    Route::delete('/categories/{category}', [ProductCategoryController::class, 'destroy']);
+
 });
 
