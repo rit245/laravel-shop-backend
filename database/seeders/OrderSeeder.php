@@ -18,6 +18,7 @@ class OrderSeeder extends Seeder
         foreach (range(1, 15) as $index) {
             DB::table('orders')->insert([
                 'product_id' => $faker->randomElement($products),
+                'user_id' => $faker->randomElement($users),
                 'quantity' => $faker->numberBetween(1, 5),
                 'created_at' => now(),
                 'updated_at' => now(),
