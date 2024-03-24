@@ -3,7 +3,9 @@
     <ul>
         @foreach ($products as $product)
             <li>
-                {{ $product->name }} - ${{ $product->price }}
+                <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
+                    {{ $product->name }} - ${{ $product->price }}
+                </a>
                 <p>{{ $product->description }}</p>
             </li>
         @endforeach
