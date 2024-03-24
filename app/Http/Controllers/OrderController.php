@@ -8,10 +8,11 @@ use App\Models\Order;
 class OrderController extends Controller
 {
     // 주문 목록 조회
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::all();
-        return view('order', compact('orders'));
+        $productId = $request->query('productId');
+
+        return view('order', compact('productId'));
     }
 
     // 주문 폼
@@ -54,13 +55,6 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->delete();
-        return redirect()->route('orders.index');
-    }
-
-    //create dummy data ordercontroller
-    public function createDummyData()
-    {
-        Order::factory()->count(10)->create();
         return redirect()->route('orders.index');
     }
 }
