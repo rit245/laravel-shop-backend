@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Livewire\CartComponent;
 use App\Livewire\HomeComponent;
 use App\Livewire\OrderFormComponent;
-use App\Livewire\ProductDetailComponent;
+use App\Livewire\ProductDetail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,5 +41,14 @@ Route::get('/order', function () {
 
 
 Route::get('/', HomeComponent::class);
-Route::get('/product/{productId}', ProductDetailComponent::class);
+
 Route::get('/order/{productId}', OrderFormComponent::class);
+Route::get('/product/{productId}', ProductDetail::class)->name('product.detail');
+
+Route::get('/cart', CartComponent::class)->name('cart');
+Route::get('/order-complete', function () {
+    return view('order-complete');
+})->name('order-complete');
+
+// 주문 목록 조회
+Route::get('/order', [OrderController::class, 'index'])->name('order.index');
