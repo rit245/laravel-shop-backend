@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,3 +72,30 @@ Route::middleware('auth:admin')->group(function () {
 
 });
 
+
+// 주문 관련 API 라우트
+Route::prefix('orders')->group(function () {
+    // 주문 목록 조회
+    Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+
+    // 주문 생성 폼
+    Route::get('/create', [OrderController::class, 'create'])->name('orders.create');
+
+    // 주문 처리
+    Route::post('/', [OrderController::class, 'store'])->name('orders.store');
+
+    // 주문 상세 조회
+    Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
+
+    // 주문 수정 폼
+    Route::get('/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit');
+
+    // 주문 수정 처리
+    Route::put('/{id}', [OrderController::class, 'update'])->name('orders.update');
+
+    // 주문 삭제 처리
+    Route::delete('/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
+    // 더미 데이터 생성
+    Route::get('/create-dummy-data', [OrderController::class, 'createDummyData'])->name('orders.createDummyData');
+});
