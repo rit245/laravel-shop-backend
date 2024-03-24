@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Hash;
  */
 class AdminController extends Controller
 {
-    /** 
+    /**
      * 관리자 로그인
-     * 
+     *
      * @bodyParam email string required 이메일
      * @bodyParam password string required 비밀번호
     */
@@ -53,7 +53,7 @@ class AdminController extends Controller
     *  "message": "Admin created successfully",
     *  "admin": {
     *      "name": "Admin",
-    *      "email": "
+    *      "email": ""
     */
 
      public function create(Request $request)
@@ -63,13 +63,13 @@ class AdminController extends Controller
              'email' => 'required|string|email|max:255|unique:admins',
              'password' => 'required|string|min:8|confirmed',
          ]);
- 
+
          $admin = Admin::create([
              'name' => $request->name,
              'email' => $request->email,
              'password' => Hash::make($request->password),
          ]);
- 
+
          return response()->json(['message' => '관리자 계정을 생성하였습니다.', 'admin' => $admin], 201);
     }
 }
