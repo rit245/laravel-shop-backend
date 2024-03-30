@@ -36,9 +36,9 @@ class OrderForm extends Component
 
         $this->js('await PortOne.requestPayment({
         // Store ID 설정
-        storeId: "123456",
+        storeId: "store-c3f52de2-1561-4988-9345-0f7652ea5f68",
         // 채널 키 설정
-        channelKey: "YOUR_CHANNEL_KEY",
+        channelKey: "channel-key-9fe610e3-d1bc-4ca8-9c1b-2467a5853cdb",
         paymentId: `payment-${crypto.randomUUID()}`,
         orderName: "파는 무언가",
         totalAmount:1000,
